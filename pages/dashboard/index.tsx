@@ -1,14 +1,17 @@
 import DashboardLayout from "../../src/layouts/DashboardLayout";
 import useToProtectRoute from "../../src/hooks/useToProtectRoute";
+import Dashboard from "../../src/components/Dashboard";
 
-const Dashboard = () => {
+const DashboardPage = () => {
   const { LoadingComponent, userData } = useToProtectRoute();
 
   return LoadingComponent || !userData ? (
     LoadingComponent
   ) : (
-    <DashboardLayout>Dashboard</DashboardLayout>
+    <DashboardLayout>
+      <Dashboard />
+    </DashboardLayout>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

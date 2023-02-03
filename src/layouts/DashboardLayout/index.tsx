@@ -81,7 +81,7 @@ const DashboardLayout = ({
 
             <Grid md={8}>
               <Typography variant="h6" color="black" noWrap component="div">
-                Unibox
+                examplePrompt
               </Typography>
             </Grid>
             <Grid ml="auto">

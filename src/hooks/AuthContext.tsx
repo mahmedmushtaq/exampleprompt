@@ -6,8 +6,8 @@ import {
   onAuthStateChanged,
   UserCredential,
 } from "firebase/auth";
-import { addUser, getUserById } from "../libs/get";
-import { IUserData, RoleTypes } from "../globals/type";
+import { addUser, getUserById } from "../libs/firebase/db/user";
+import { IUserData, RoleTypes } from "../globals/types";
 
 interface ICreateContext {
   loading: boolean;

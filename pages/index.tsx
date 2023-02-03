@@ -7,7 +7,7 @@ import FrontLayout from "../src/layouts/FrontLayout";
 import SelectCategory from "../src/components/home/SelectCategory";
 import HeadingText from "../src/components/shared/HeadingText";
 import { useEffect } from "react";
-import { getAllUsers } from "../src/libs/get";
+import { getAllUsers } from "../src/libs/firebase/db/user";
 
 const inter = Inter({ subsets: ["latin"] });
 
