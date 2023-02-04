@@ -34,6 +34,9 @@ const AddPrompt = () => {
     if (findUndefinedKeyInObj(formState)) {
       return setErr("All fields are required");
     }
+    if (formState.heading.length > 50) {
+      return setErr("Only 50 words are allowed in heading");
+    }
     trackApiCall();
     try {
       await addPrompt({ ...formState, userId: userData!.id });
@@ -57,9 +60,13 @@ const AddPrompt = () => {
         label="Prompt Heading"
         variant="outlined"
         name="heading"
+        color={formState.heading.length > 50 ? "error" : "primary"}
         value={formState.heading}
         onChange={onChange}
         sx={{ mb: 2 }}
+        helperText={`Only 50 words are allowed. Remaining words:  ${
+          50 - formState.heading.length
+        }`}
       />
 
       <TextField

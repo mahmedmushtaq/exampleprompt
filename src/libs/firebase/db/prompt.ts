@@ -8,9 +8,9 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { CollectionTypes, IPromptData } from "../../../globals/types";
-import { appendNewRecord, deleteData, updateData } from ".";
+import { appendNewRecord, deleteData, getAllData, updateData } from ".";
 import { generateSlug } from "../../../globals/helpers";
-import { getCategoryById } from "./category";
+import { getCategoryById, getCategoryByName } from "./category";
 import { getUserById } from "./user";
 
 const promptCollectionRef = collection(db, "prompts");
@@ -43,17 +43,30 @@ export const addPrompt = async ({
 export const getAllPromptsByUserId = async (uid: string) => {
   const q = query(promptCollectionRef, where("userId", "==", uid));
   const result = await getDocs(q);
-  return allPrompts(result);
+  return getAllPrompts(result);
+};
+
+export const getAllPromptsByCategoryName = async (name: string) => {
+  const category = await getCategoryByName(name);
+  console.log("category is ", category);
+  // const q = query(promptCollectionRef, where("userId", "==", uid));
+  // const result = await getDocs(q);
+  // return getAllPrompts(result);
 };
 
 export const getAllPromptsByApprovedStatus = async (status: boolean) => {
   const q = query(promptCollectionRef, where("approved", "==", status));
   const result = await getDocs(q);
-  return allPrompts(result);
+  return getAllPrompts(result);
 };
 
-export const allPrompts = async (result: QuerySnapshot<DocumentData>) => {
-  const returnDataMap = result.docs.map(async (doc) => {
+export const getAllPrompts = async (result?: QuerySnapshot<DocumentData>) => {
+  let allResults = result;
+  if (!allResults) {
+    allResults = await getDocs(promptCollectionRef);
+  }
+
+  const returnDataMap = allResults.docs.map(async (doc) => {
     const data = doc.data();
     // get categoryDetails
     const categoriesMap = data.categoryIds.map(async (id: string) => {
@@ -84,3 +97,5 @@ export const deletePrompt = async (id: string) => {
 export const approvePrompt = async (id: string) => {
   await updateData(CollectionTypes.prompts, id, { approved: true });
 };
+
+/** [TODO:- add pagination code] */

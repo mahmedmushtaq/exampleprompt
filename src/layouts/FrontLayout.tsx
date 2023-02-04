@@ -11,7 +11,7 @@ interface IProps {
 
 const FrontLayout = ({ children, pageTitle, pageDescription }: IProps) => {
   return (
-    <Container maxWidth="xl" sx={{ mx: "auto" }}>
+    <Container maxWidth="xl">
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />

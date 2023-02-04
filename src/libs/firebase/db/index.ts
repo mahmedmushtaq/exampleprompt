@@ -40,6 +40,16 @@ export const getDataById = async (
   return data ? { id: result.id, ...result.data() } : undefined;
 };
 
+export const getDataByKeyField = async (
+  collectionName: CollectionTypes,
+  ...args: string[]
+) => {
+  const dataDoc = doc(db, collectionName, ...args);
+  const result = await getDoc(dataDoc);
+  const data = result.data();
+  return data ? { id: result.id, ...result.data() } : undefined;
+};
+
 /**
  * it will add new data according to your uuid
  * @param collectionName

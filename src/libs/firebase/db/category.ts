@@ -1,7 +1,13 @@
 import { db } from "../../../config/firebase";
 import { collection } from "firebase/firestore";
 import { CollectionTypes, ICategoryData } from "../../../globals/types";
-import { appendNewRecord, deleteData, getAllData, getDataById } from ".";
+import {
+  appendNewRecord,
+  deleteData,
+  getAllData,
+  getDataById,
+  getDataByKeyField,
+} from ".";
 
 const categoriesCollectionRef = collection(db, "categories");
 
@@ -23,5 +29,14 @@ export const deleteCategory = async (id: string) => {
 
 export const getCategoryById = async (id: string) => {
   const result = await getDataById(CollectionTypes.categories, id);
+  return result;
+};
+
+export const getCategoryByName = async (val: string) => {
+  const result = await getDataByKeyField(
+    CollectionTypes.categories,
+    "name",
+    val
+  );
   return result;
 };

@@ -8,13 +8,17 @@ import {
 } from "@mui/material";
 import useToLoadCategories from "../../../hooks/useToLoadCategories";
 
-interface IProps extends SelectProps {}
+interface IProps extends SelectProps {
+  passNameInValue?: boolean;
+}
 
 const SelectCategory = (props: IProps) => {
   const { allCategories } = useToLoadCategories();
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
+      <InputLabel id="demo-simple-select-label">
+        {props.label || "Select Category"}
+      </InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
@@ -22,7 +26,10 @@ const SelectCategory = (props: IProps) => {
         {...props}
       >
         {allCategories.map((cat) => (
-          <MenuItem key={cat.id} value={cat.id}>
+          <MenuItem
+            key={cat.id}
+            value={props.passNameInValue ? cat.name : cat.id}
+          >
             {cat.name}
           </MenuItem>
         ))}
