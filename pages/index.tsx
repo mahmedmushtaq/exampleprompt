@@ -4,10 +4,11 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import { Box, Typography, Unstable_Grid2 as Grid } from "@mui/material";
 import FrontLayout from "../src/layouts/FrontLayout";
-import SelectCategory from "../src/components/home/SelectCategory";
 import HeadingText from "../src/components/shared/HeadingText";
 import { useEffect } from "react";
 import { getAllUsers } from "../src/libs/firebase/db/user";
+import SelectCategory from "../src/components/shared/SelectCategory";
+import SelectLanguage from "../src/components/shared/SelectLanguage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,13 +27,17 @@ export default function Home() {
     >
       <Box>
         <HeadingText
-          sx={{ mt: 15 }}
+          sx={{ mt: 5 }}
           align="center"
           text1="Free"
           secondaryText="ChatGpt Prompt"
           text2="Ideas"
           variant="h3"
         />
+
+        <Typography align="center" my={2}>
+          Share your outstanding prompts with the world and help the community
+        </Typography>
 
         <Grid
           container
@@ -45,7 +50,7 @@ export default function Home() {
             <SelectCategory />
           </Grid>
           <Grid xs={5} md={3}>
-            <SelectCategory />
+            <SelectLanguage />
           </Grid>
         </Grid>
       </Box>

@@ -9,10 +9,16 @@ import Navbar from "../components/shared/Navbar";
 interface IProps {
   children: ReactNode | ReactNode[];
   heading: string;
+  subHeading?: string;
   handleSubmit?: React.FormEventHandler<HTMLFormElement>;
 }
 
-const AuthenticationLayout = ({ children, heading, handleSubmit }: IProps) => {
+const AuthenticationLayout = ({
+  children,
+  heading,
+  handleSubmit,
+  subHeading,
+}: IProps) => {
   return (
     <Container component="main" maxWidth="xs">
       <Navbar />
@@ -31,6 +37,16 @@ const AuthenticationLayout = ({ children, heading, handleSubmit }: IProps) => {
         <Typography component="h1" variant="h5">
           {heading}
         </Typography>
+        {subHeading && (
+          <Typography
+            component="h2"
+            variant="h6"
+            align="center"
+            sx={{ my: 2, fontWeight: 300 }}
+          >
+            {subHeading}
+          </Typography>
+        )}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 5 }}>
           {children}
         </Box>

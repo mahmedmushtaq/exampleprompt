@@ -6,9 +6,9 @@ import {
   Category as CategoryIcon,
   Home as HomeIcon,
 } from "@mui/icons-material";
-import { UrlsList } from "./types";
+import { UrlsList } from "../types";
 
-export const drawerNavigation = [
+export const dashboardNavigation = [
   { id: 1, Icon: HomeIcon, text: "Home", link: "/" },
   {
     id: 2,
@@ -17,12 +17,18 @@ export const drawerNavigation = [
     link: UrlsList.categoryDashboard,
     admin: true,
   },
+  //   {
+  //     id: 3,
+  //     Icon: AbcIcon,
+  //     text: "Language",
+  //     link: UrlsList.languageDashboard,
+  //     admin: true,
+  //   },
   {
-    id: 3,
-    Icon: AbcIcon,
-    text: "Language",
-    link: UrlsList.languageDashboard,
+    id: 4,
+    Icon: SchoolIcon,
     admin: true,
+    text: "Prompt",
+    link: "/dashboard/prompt",
   },
-  { id: 4, Icon: SchoolIcon, text: "Prompt", link: "/dashboard/prompt" },
 ];

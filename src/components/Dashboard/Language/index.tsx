@@ -38,7 +38,9 @@ const Language = () => {
         columns={["id", "name"]}
         rows={allLanguages}
         actionColumn
-        onClickDeleteButton={deleteData}
+        actionColumnConfig={{
+          actionButtons: [{ type: "delete", onClick: deleteData }],
+        }}
       />
       {errAlert}
     </div>

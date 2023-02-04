@@ -5,12 +5,11 @@ import {
   Select,
   SelectProps,
 } from "@mui/material";
-import useToLoadLanguages from "../../../hooks/useToLoadLanguages";
+import { LANGUAGES } from "../../../globals/constants/languages";
 
 interface IProps extends SelectProps {}
 
 const SelectLanguage = (props: IProps) => {
-  const { allLanguages } = useToLoadLanguages();
   return (
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">Select Language</InputLabel>
@@ -20,9 +19,9 @@ const SelectLanguage = (props: IProps) => {
         label="Language"
         {...props}
       >
-        {allLanguages.map((cat) => (
-          <MenuItem key={cat.id} value={cat.id}>
-            {cat.name}
+        {LANGUAGES.map((lang) => (
+          <MenuItem key={lang.languageId} value={lang.symbol}>
+            {lang.language} ({lang.symbol})
           </MenuItem>
         ))}
       </Select>

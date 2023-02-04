@@ -5,27 +5,34 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Button, Collapse, Unstable_Grid2 as Grid } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import LoadingButton from "../LoadingButton";
-import { TGenericObj } from "../../../globals/types";
+import { RoleTypes, TGenericObj } from "../../../globals/types";
+import { IActionButton, actionBtnType } from "./type";
+import ActionButtons from "./ActionButtons";
 
 interface IProps {
   columns: string[];
   rows: { [key: string]: any }[];
   actionColumn?: boolean;
-  onClickDeleteButton?: (id: string) => void;
-  actionColumnConfig?: { align: "left" | "right" | "center" };
+  //onClickDeleteButton?: (id: string) => void;
+  actionColumnConfig?: {
+    align?: "left" | "right" | "center";
+    actionButtons: IActionButton[];
+  };
   innerTableColumns?: string[];
+  role?: RoleTypes;
 }
 
 const TableWrapper = ({
   columns,
   rows,
   actionColumn,
-  onClickDeleteButton,
   innerTableColumns,
-  actionColumnConfig = { align: "center" },
+  actionColumnConfig,
+  role,
 }: IProps) => {
+  const { align = "center", actionButtons } = actionColumnConfig || {};
   const [subCategoryData, setSubCategoryData] = useState<TGenericObj[]>([]);
   const [selectedSubCategoryDataId, setSelectedSubCategoryId] = useState("");
   const handleExpandButton = (data: TGenericObj[], id: string) => {
@@ -55,10 +62,7 @@ const TableWrapper = ({
                   </TableCell>
                 ))}
                 {actionColumn && (
-                  <TableCell
-                    sx={{ fontWeight: "bold" }}
-                    align={actionColumnConfig.align}
-                  >
+                  <TableCell sx={{ fontWeight: "bold" }} align={align}>
                     Action
                   </TableCell>
                 )}
@@ -74,7 +78,15 @@ const TableWrapper = ({
                     {columns.map((col) => (
                       <TableCell key={row[col]} align="left">
                         {!Array.isArray(row[col]) ? (
-                          row[col]
+                          typeof row[col] === "boolean" ? (
+                            row[col] ? ( // in case of boolean show string like if prompt approved then show approved and if not then show not approved
+                              col
+                            ) : (
+                              `Not ${col}`
+                            )
+                          ) : (
+                            row[col]
+                          )
                         ) : (
                           <Button
                             variant="contained"
@@ -93,12 +105,11 @@ const TableWrapper = ({
                     ))}
 
                     {actionColumn && (
-                      <TableCell align={actionColumnConfig.align}>
-                        <LoadingButton
-                          size="small"
-                          text="Delete"
-                          color="error"
-                          onClick={() => onClickDeleteButton?.(row.id)}
+                      <TableCell align={align}>
+                        <ActionButtons
+                          actionButtons={actionButtons}
+                          row={row}
+                          role={role}
                         />
                       </TableCell>
                     )}

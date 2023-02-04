@@ -1,11 +1,14 @@
 import DashboardLayout from "../../src/layouts/DashboardLayout";
 import useToProtectRoute from "../../src/hooks/useToProtectRoute";
 import Dashboard from "../../src/components/Dashboard";
+import { RoleTypes } from "../../src/globals/types";
 
 const DashboardPage = () => {
-  const { LoadingComponent, userData } = useToProtectRoute();
+  const { LoadingComponent, showPage } = useToProtectRoute({
+    role: RoleTypes.admin,
+  });
 
-  return LoadingComponent || !userData ? (
+  return !showPage ? (
     LoadingComponent
   ) : (
     <DashboardLayout>

@@ -2,6 +2,7 @@ import { Unstable_Grid2 as Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { useAuth } from "../../../hooks/AuthContext";
+import { UrlsList } from "../../../globals/types";
 
 const Navbar = () => {
   const { userData } = useAuth();
@@ -28,7 +29,7 @@ const Navbar = () => {
       <Grid>
         <Typography
           component={Link}
-          href={!!userData ? "/dashboard" : "/registration"}
+          href={!!userData ? UrlsList.promptDashboard : UrlsList.registration}
           variant="h6"
           color="primary"
           sx={{ cursor: "pointer", textDecoration: "none" }}

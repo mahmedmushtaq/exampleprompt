@@ -10,16 +10,19 @@ export default function SignIn() {
   };
 
   return (
-    <AuthenticationLayout heading="Registration">
-      <Card>
-        <Button
-          startIcon={<GoogleIcon />}
-          sx={{ px: 5, py: 2 }}
-          onClick={handleOnClick}
-        >
-          Login/SignUp With Google
-        </Button>
-      </Card>
+    <AuthenticationLayout
+      heading="Registration"
+      subHeading="Share Your Outstanding promts with the world and increase your chance to hire as a prompt engineer"
+    >
+      <Button
+        startIcon={<GoogleIcon />}
+        sx={{ px: 5, py: 2 }}
+        onClick={handleOnClick}
+        color="primary"
+        variant="contained"
+      >
+        Login/SignUp With Google
+      </Button>
     </AuthenticationLayout>
   );
 }

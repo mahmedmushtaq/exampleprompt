@@ -5,7 +5,7 @@ import LinkWrapper from "../LinkWrapper";
 interface IProps {
   color?: "primary" | "secondary" | "warning";
   title: string;
-  count: number | string;
+  count?: number | string;
   percentage?: number;
   isLoss?: boolean;
   extra?: string;
@@ -26,13 +26,15 @@ const CardAnalytics = ({
       <Typography variant="h6" color="textSecondary">
         {title}
       </Typography>
-      <Grid container alignItems="center">
-        <Grid item>
-          <Typography variant="h5" color="inherit">
-            {count}
-          </Typography>
+      {count && (
+        <Grid container alignItems="center">
+          <Grid item>
+            <Typography variant="h5" color="inherit">
+              {count}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Stack>
     {extra && (
       <Box sx={{ pt: 2.25 }}>

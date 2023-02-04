@@ -7,7 +7,7 @@ import {
   UserCredential,
 } from "firebase/auth";
 import { addUser, getUserById } from "../libs/firebase/db/user";
-import { IUserData, RoleTypes } from "../globals/types";
+import { IUserData, RoleTypes, UrlsList } from "../globals/types";
 
 interface ICreateContext {
   loading: boolean;
@@ -15,6 +15,7 @@ interface ICreateContext {
   logout: () => void;
   userData: IUserData | undefined;
   registerWithGoogle: () => void;
+  isAdmin: boolean;
 }
 
 const defaultContextVal: ICreateContext = {
@@ -23,6 +24,7 @@ const defaultContextVal: ICreateContext = {
   logout: () => {},
   registerWithGoogle: () => {},
   userData: undefined,
+  isAdmin: false,
 };
 
 const AuthContext = createContext<ICreateContext>(defaultContextVal);
@@ -58,7 +60,7 @@ export function AuthProvider({ children }: any) {
           });
 
         setUserData(docUser!);
-        window.location.href = "/dashboard";
+        window.location.href = UrlsList.promptDashboard;
       })
       .catch((error) => {
         console.log("error is ", error);
@@ -87,12 +89,15 @@ export function AuthProvider({ children }: any) {
     return unsubscribe;
   }, []);
 
+  const isAdmin = userData?.role === RoleTypes.admin;
+
   const value = {
     currentUser,
     logout,
     userData,
     registerWithGoogle,
     loading,
+    isAdmin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

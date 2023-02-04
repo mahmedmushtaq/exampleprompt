@@ -1,11 +1,11 @@
-import AddPrompt from "../../../src/components/Dashboard/prompt/AddPrompt";
+import AddPrompt from "../../../src/components/Dashboard/Prompt/AddPrompt";
 import useToProtectRoute from "../../../src/hooks/useToProtectRoute";
 import DashboardLayout from "../../../src/layouts/DashboardLayout";
 
 const AddPromptPage = () => {
-  const { LoadingComponent, userData } = useToProtectRoute();
+  const { LoadingComponent, showPage } = useToProtectRoute({});
 
-  return LoadingComponent || !userData ? (
+  return !showPage? (
     LoadingComponent
   ) : (
     <DashboardLayout childrenCardBg heading="Add Prompt">

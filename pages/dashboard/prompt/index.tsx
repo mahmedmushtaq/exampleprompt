@@ -1,12 +1,12 @@
-import Prompt from "../../../src/components/Dashboard/prompt";
+import Prompt from "../../../src/components/Dashboard/Prompt";
 import { UrlsList } from "../../../src/globals/types";
 import useToProtectRoute from "../../../src/hooks/useToProtectRoute";
 import DashboardLayout from "../../../src/layouts/DashboardLayout";
 
 const PromptPage = () => {
-  const { LoadingComponent, userData } = useToProtectRoute();
+  const { LoadingComponent, showPage } = useToProtectRoute({});
 
-  return LoadingComponent || !userData ? (
+  return !showPage ? (
     LoadingComponent
   ) : (
     <DashboardLayout

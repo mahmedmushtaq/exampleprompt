@@ -1,7 +1,7 @@
 import { db } from "../../../config/firebase";
 import { collection } from "firebase/firestore";
 import { CollectionTypes, ICategoryData } from "../../../globals/types";
-import { appendNewRecord, deleteData, getAllData } from ".";
+import { appendNewRecord, deleteData, getAllData, getDataById } from ".";
 
 const categoriesCollectionRef = collection(db, "categories");
 
@@ -19,4 +19,9 @@ export const getAllCategories = async () => {
 
 export const deleteCategory = async (id: string) => {
   await deleteData(CollectionTypes.categories, id);
+};
+
+export const getCategoryById = async (id: string) => {
+  const result = await getDataById(CollectionTypes.categories, id);
+  return result;
 };

@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonIcon from "@mui/icons-material/Person";
-import CustomMenuList from "../shared/CustomMenuList";
-import { useAuth } from "../../hooks/AuthContext";
+import CustomMenuList from "../CustomMenuList";
+import { useAuth } from "../../../hooks/AuthContext";
+import { UrlsList } from "../../../globals/types";
 
 const ProfileDropdown = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -19,7 +20,7 @@ const ProfileDropdown = () => {
 
   const list = [
     { id: 1, text: "Home", link: "/" },
-    { id: 2, text: "Settings", link: "/setting" },
+    // { id: 2, text: "Settings", link: UrlsList.dashboardSettings },
     { id: 3, text: "Sign Out", onClick: () => logout() },
   ];
 

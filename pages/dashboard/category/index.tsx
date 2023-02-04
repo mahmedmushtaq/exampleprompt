@@ -1,12 +1,14 @@
 import Category from "../../../src/components/Dashboard/Category";
-import { UrlsList } from "../../../src/globals/types";
+import { RoleTypes, UrlsList } from "../../../src/globals/types";
 import useToProtectRoute from "../../../src/hooks/useToProtectRoute";
 import DashboardLayout from "../../../src/layouts/DashboardLayout";
 
 const CategoryPage = () => {
-  const { LoadingComponent, userData } = useToProtectRoute();
+  const { LoadingComponent, showPage } = useToProtectRoute({
+    role: RoleTypes.admin,
+  });
 
-  return LoadingComponent || !userData ? (
+  return !showPage ? (
     LoadingComponent
   ) : (
     <DashboardLayout

@@ -20,6 +20,8 @@ export enum UrlsList {
   addLanguage = "/dashboard/language/add",
   promptDashboard = "/dashboard/prompt",
   addPrompt = "/dashboard/prompt/add",
+  dashboardSettings = "/dashboard/settings",
+  registration = "/registration",
 }
 
 export interface IUserData {
@@ -42,7 +44,10 @@ export interface ILanguageData {
 export interface IPromptData {
   id: string;
   categories: ICategoryData[];
+  heading: string;
+  slug: string;
   text: string;
-  language: ILanguageData;
+  langSymbol: string;
   user: IUserData;
+  approved: boolean;
 }
