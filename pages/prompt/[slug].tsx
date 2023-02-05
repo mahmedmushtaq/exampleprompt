@@ -125,7 +125,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { slug },
     };
   });
-  return { paths, fallback: true };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -145,7 +145,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       prompt,
     },
     notFound: !prompt,
-    revalidate: 10, // revalidate after 10 seconds everytime
+    // revalidate: 10, // revalidate after 10 seconds everytime
   };
 };
 

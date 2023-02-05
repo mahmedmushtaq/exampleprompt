@@ -27,6 +27,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       prompts,
     },
-    revalidate: 5,
+    // revalidate: 5,
   };
 };
