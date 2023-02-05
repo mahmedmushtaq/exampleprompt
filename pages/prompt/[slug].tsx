@@ -145,7 +145,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       prompt,
     },
     notFound: !prompt,
-    // revalidate: 10, // revalidate after 10 seconds everytime
+    revalidate: 1, // revalidate after 1 seconds everytime
   };
 };
 
