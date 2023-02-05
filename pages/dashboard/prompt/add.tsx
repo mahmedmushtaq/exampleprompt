@@ -1,4 +1,4 @@
-import AddPrompt from "../../../src/components/Dashboard/Prompt/AddPrompt";
+import AddPrompt from "../../../src/components/Dashboard/prompt/AddPrompt";
 import useToProtectRoute from "../../../src/hooks/useToProtectRoute";
 import DashboardLayout from "../../../src/layouts/DashboardLayout";
 

@@ -45,6 +45,12 @@ export const getAllPromptsByUserId = async (uid: string) => {
   const result = await getDocs(q);
   return getAllPrompts(result);
 };
+export const getAllPromptsBySlug = async (slug: string) => {
+  const q = query(promptCollectionRef, where("slug", "==", slug));
+  const result = await getDocs(q);
+  const prompt = await getAllPrompts(result);
+  return prompt[0];
+};
 
 export const getAllPromptsByCategoryName = async (name: string) => {
   const category = await getCategoryByName(name);
@@ -98,4 +104,12 @@ export const approvePrompt = async (id: string) => {
   await updateData(CollectionTypes.prompts, id, { approved: true });
 };
 
-/** [TODO:- add pagination code] */
+export const getAllPromptsSlugsOnly = async () => {
+  const q = query(promptCollectionRef, where("approved", "==", true));
+  const result = await getDocs(q);
+
+  return result.docs.map((doc) => ({
+    slug: doc.data().slug,
+    id: doc.id,
+  }));
+};

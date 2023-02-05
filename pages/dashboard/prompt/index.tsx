@@ -1,4 +1,4 @@
-import Prompt from "../../../src/components/Dashboard/Prompt";
+import Prompt from "../../../src/components/Dashboard/prompt";
 import { UrlsList } from "../../../src/globals/types";
 import useToProtectRoute from "../../../src/hooks/useToProtectRoute";
 import DashboardLayout from "../../../src/layouts/DashboardLayout";

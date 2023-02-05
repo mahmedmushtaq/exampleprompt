@@ -1,6 +1,6 @@
 import { IPromptData } from "../../globals/types";
 
-class FilterFunction {
+class FilterFunctions {
   constructor(private _promptsData: IPromptData[]) {}
 
   applyCategoryLangAndSearchFilter({
@@ -90,4 +90,4 @@ class FilterFunction {
   }
 }
 
-export default FilterFunction;
+export default FilterFunctions;

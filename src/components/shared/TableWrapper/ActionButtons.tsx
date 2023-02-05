@@ -1,11 +1,18 @@
 import { RoleTypes, TGenericObj } from "../../../globals/types";
 import LoadingButton from "../LoadingButton";
-import { IActionButton, actionBtnType } from "./type";
+
+export type actionBtnType = "more" | "approve" | "delete" | "link";
+export interface IActionButton {
+  type: actionBtnType;
+  onClick?: (id: string, row: TGenericObj) => void;
+  requireAdminAccess?: boolean; // particular action button will only be visible for admin only
+  conditionalKey?: string; // if particular key is present in data then particular action btn will show otherwise not
+}
 
 const getActionBtnColor = (type: actionBtnType) => {
   if (type === "delete") return "error"; // red color will show
   else if (type === "approve") return "primary";
-  return "secondary";
+  return "info";
 };
 
 interface IProps {
@@ -22,28 +29,36 @@ const ActionButtons = ({ actionButtons, role, row }: IProps) => {
           role === "admin" ? ( // if role is not admin then no button will be show in action column
             btn.conditionalKey ? ( // conditionally show button if user wants
               !row[btn.conditionalKey] && (
-                <ActionBtn key={btn.type} btn={btn} id={row.id} />
+                <ActionBtn key={btn.type} btn={btn} id={row.id} row={row} />
               )
             ) : (
-              <ActionBtn key={btn.type} btn={btn} id={row.id} />
+              <ActionBtn key={btn.type} btn={btn} id={row.id} row={row} />
             )
           ) : null
         ) : (
-          <ActionBtn key={btn.type} btn={btn} id={row.id} />
+          <ActionBtn key={btn.type} btn={btn} id={row.id} row={row} />
         )
       )}
     </>
   );
 };
 
-const ActionBtn = ({ btn, id }: { btn: IActionButton; id: string }) => (
+const ActionBtn = ({
+  btn,
+  id,
+  row,
+}: {
+  btn: IActionButton;
+  id: string;
+  row: TGenericObj;
+}) => (
   <LoadingButton
     size="small"
     key={btn.type}
     text={btn.type}
     sx={{ mr: 1 }}
     color={getActionBtnColor(btn.type)}
-    onClick={() => btn.onClick?.(id)}
+    onClick={() => btn.onClick?.(id, row)}
   />
 );
 

@@ -1,5 +1,5 @@
 import FrontLayout from "../src/layouts/FrontLayout";
-import Home from "../src/components/Home";
+import Home from "../src/components/home";
 import type { GetStaticProps } from "next";
 import { getAllPromptsByApprovedStatus } from "../src/libs/firebase/db/prompt";
 import { IPromptData } from "../src/globals/types";

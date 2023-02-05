@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import useDataFetchingUtils from "../../../hooks/useDataFetchingUtils";
-import { IPromptData } from "../../../globals/types";
+import { IPromptData, TGenericObj, UrlsList } from "../../../globals/types";
 import TableWrapper from "../../shared/TableWrapper";
 import { useAuth } from "../../../hooks/AuthContext";
 import {
@@ -17,6 +17,7 @@ import {
   SelectChangeEvent,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 type adminPromptFilterType = "my" | "not-approved" | "approved";
 
@@ -28,6 +29,8 @@ const Prompt = () => {
   const { userData, isAdmin } = useAuth();
   const [adminPromptFilter, setAdminPromptFilter] =
     useState<adminPromptFilterType>("my");
+
+  const router = useRouter();
 
   const loadAllPromptsById = useCallback(async () => {
     trackApiCall();
@@ -99,6 +102,10 @@ const Prompt = () => {
     setAdminPromptFilter(value);
   };
 
+  const visitPrompt = (id: string, row: IPromptData) => {
+    router.push(UrlsList.promptInfo + `/${row.slug}`);
+  };
+
   return (
     <div>
       {loadingAlert}
@@ -133,6 +140,11 @@ const Prompt = () => {
         role={userData?.role}
         actionColumnConfig={{
           actionButtons: [
+            {
+              type: "link",
+              onClick: (id: string, row: TGenericObj) =>
+                visitPrompt(id, row as IPromptData),
+            },
             {
               type: "approve",
               onClick: approveBtn,

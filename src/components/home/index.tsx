@@ -8,13 +8,13 @@ import {
 import HeadingText from "../shared/HeadingText";
 import SelectCategory from "../shared/SelectCategory";
 import SelectLanguage from "../shared/SelectLanguage";
-import PromptItem from "./PromptItem";
 import Router, { useRouter } from "next/router";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AccordionWrapper from "../shared/AccordionWrapper";
 import { ICategoryData, IPromptData } from "../../globals/types";
 import { useEffect, useState } from "react";
 import useSearchFilter from "./useSearchFilter";
+import PromptItem from "./PromptItem";
 
 interface IProps {
   prompts: IPromptData[];

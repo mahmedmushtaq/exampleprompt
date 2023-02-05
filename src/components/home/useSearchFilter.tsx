@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { IPromptData, TGenericObj } from "../../globals/types";
 import _debounce from "lodash/debounce";
-import FilterFunction from "./filterFunctions";
+import FilterFunctions from "./FilterFunctions";
 
 interface IProps {
   prompts: IPromptData[];
@@ -16,7 +16,8 @@ const useSearchFilter = ({ prompts }: IProps) => {
   const [selectedLang, setSelectedLang] = useState<string | undefined>(
     undefined
   );
-  const [filteredPrompts, setFilteredPrompts] = useState<IPromptData[]>([]);
+  const [filteredPrompts, setFilteredPrompts] =
+    useState<IPromptData[]>(prompts);
   const [showResetFilter, setShowResetFilter] = useState(false);
   const [search, setSearch] = useState<string | undefined>(undefined);
 
@@ -77,7 +78,7 @@ const useSearchFilter = ({ prompts }: IProps) => {
       return;
     }
 
-    const filterFunction = new FilterFunction(prompts);
+    const filterFunction = new FilterFunctions(prompts);
 
     let remainingPrompts: IPromptData[] = [];
     let categoryValue = String(category);

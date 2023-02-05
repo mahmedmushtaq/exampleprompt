@@ -37,9 +37,11 @@ const Navbar = () => {
           {!!userData ? "Dashboard" : "Registration"}
         </Typography>
       </Grid>
+
+      {/* TODO:- available soon
       <Grid>
         <DarkModeIcon sx={{ cursor: "pointer" }} />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

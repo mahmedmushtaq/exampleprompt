@@ -8,8 +8,7 @@ import { Button, Collapse, Unstable_Grid2 as Grid } from "@mui/material";
 import { ReactNode, useState } from "react";
 import LoadingButton from "../LoadingButton";
 import { RoleTypes, TGenericObj } from "../../../globals/types";
-import { IActionButton, actionBtnType } from "./type";
-import ActionButtons from "./ActionButtons";
+import ActionButtons, { IActionButton, actionBtnType } from "./ActionButtons";
 
 interface IProps {
   columns: string[];

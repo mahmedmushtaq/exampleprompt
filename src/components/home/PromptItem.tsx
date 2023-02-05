@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Unstable_Grid2 as Grid } from "@mui/material";
-import { IPromptData } from "../../globals/types";
+import { IPromptData, UrlsList } from "../../globals/types";
 import Link from "next/link";
 
 interface IProps extends IPromptData {}
@@ -31,7 +31,7 @@ const PromptItem = ({
             variant="h6"
             sx={{ cursor: "pointer", textDecoration: "none" }}
             component={Link}
-            href={`/prompt/${slug}`}
+            href={UrlsList.promptInfo + `/${slug}`}
           >
             {heading}
           </Typography>
