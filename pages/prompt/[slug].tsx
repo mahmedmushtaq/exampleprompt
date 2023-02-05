@@ -39,7 +39,7 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
 
   const handleDeletePrompt = async () => {
     await deletePrompt(prompt.id);
-    router.push("/")
+    router.push("/");
   };
 
   const handleApprovePrompt = async () => {
@@ -145,6 +145,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       prompt,
     },
     notFound: !prompt,
+    revalidate: 10, // revalidate after 10 seconds everytime
   };
 };
 
