@@ -11,6 +11,13 @@ import Link from "next/link";
 
 interface IProps extends IPromptData {}
 
+const colors = [
+  "primary.main",
+  "secondary.main",
+  "colors.darkblue",
+  "colors.lightgreen",
+];
+
 const PromptItem = ({
   heading,
   text,
@@ -25,7 +32,9 @@ const PromptItem = ({
   return (
     <Box textAlign="center">
       <Card variant="outlined" elevation={2}>
-        <CardContent sx={{ bgcolor: "secondary.main" }}>
+        <CardContent
+          sx={{ bgcolor: colors[Math.floor(Math.random() * colors.length)] }}
+        >
           <Typography
             variant="h6"
             color="white"
