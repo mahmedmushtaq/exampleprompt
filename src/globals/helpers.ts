@@ -13,3 +13,12 @@ export const generateSlug = (text: string) =>
     strict: true,
     trim: true,
   });
+
+export const removeUndefinedKeyFromObj = (obj: TGenericObj) => {
+  console.log("obj is ", obj);
+  const newObj: TGenericObj = {};
+  Object.keys(obj).map((k) => {
+    if (obj[k]) newObj[k] = obj[k];
+  });
+  return newObj;
+};

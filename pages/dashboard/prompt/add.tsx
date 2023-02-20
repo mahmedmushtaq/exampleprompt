@@ -5,7 +5,7 @@ import DashboardLayout from "../../../src/layouts/DashboardLayout";
 const AddPromptPage = () => {
   const { LoadingComponent, showPage } = useToProtectRoute({});
 
-  return !showPage? (
+  return !showPage ? (
     LoadingComponent
   ) : (
     <DashboardLayout childrenCardBg heading="Add Prompt">

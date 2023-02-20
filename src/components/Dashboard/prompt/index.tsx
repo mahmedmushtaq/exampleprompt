@@ -138,6 +138,7 @@ const Prompt = () => {
         rows={allPrompts}
         actionColumn
         role={userData?.role}
+        showIndex
         actionColumnConfig={{
           actionButtons: [
             {

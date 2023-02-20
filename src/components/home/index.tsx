@@ -4,6 +4,7 @@ import {
   Unstable_Grid2 as Grid,
   OutlinedInput,
   SelectChangeEvent,
+  Chip,
 } from "@mui/material";
 import HeadingText from "../shared/HeadingText";
 import SelectCategory from "../shared/SelectCategory";
@@ -18,9 +19,10 @@ import PromptItem from "./PromptItem";
 
 interface IProps {
   prompts: IPromptData[];
+  categories: ICategoryData[];
 }
 
-const Home = ({ prompts }: IProps) => {
+const Home = ({ prompts, categories }: IProps) => {
   const {
     selectedCategory,
     setSearch,
@@ -69,30 +71,16 @@ const Home = ({ prompts }: IProps) => {
             }}
           />
         </Grid>
-        <Grid xs={12} md={5}>
-          <AccordionWrapper heading="Advance Search">
-            <Grid
-              container
-              justifyContent="center"
-              spacing={2}
-              alignItems="center"
-            >
-              <Grid xs={6}>
-                <SelectCategory
-                  label="Select Prompt Category"
-                  onChange={onChangeCategorySelect}
-                  value={selectedCategory}
-                  passNameInValue
-                />
-              </Grid>
-              <Grid xs={6}>
-                <SelectLanguage
-                  onChange={onChangeLanguageSelect}
-                  value={selectedLang}
-                />
-              </Grid>
-            </Grid>
-          </AccordionWrapper>
+        <Grid xs={11} md={7}>
+          {categories.map((category) => (
+            <Chip
+              label={category.name}
+              key={category.id}
+              color={selectedCategory === category.name ? "primary" : undefined}
+              sx={{ m: 1, cursor: "pointer" }}
+              onClick={() => onChangeCategorySelect(category.name)}
+            />
+          ))}
         </Grid>
       </Grid>
       {resetFilterComponent}
@@ -105,7 +93,7 @@ const Home = ({ prompts }: IProps) => {
 
       <Grid container alignItems="center" spacing={4}>
         {filteredPrompts.map((prompt) => (
-          <Grid sm={4} key={prompt.id}>
+          <Grid sm={3} key={prompt.id}>
             <PromptItem {...prompt} />
           </Grid>
         ))}

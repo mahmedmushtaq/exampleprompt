@@ -7,11 +7,17 @@ interface IProps {
   children: ReactNode;
   pageTitle: string;
   pageDescription: string;
+  maxWidth?: "xl" | "lg" | "md";
 }
 
-const FrontLayout = ({ children, pageTitle, pageDescription }: IProps) => {
+const FrontLayout = ({
+  children,
+  pageTitle,
+  pageDescription,
+  maxWidth = "xl",
+}: IProps) => {
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={maxWidth}>
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />

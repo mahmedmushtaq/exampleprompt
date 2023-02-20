@@ -24,30 +24,34 @@ const PromptItem = ({
     text.length > 500 ? text.substring(0, 500) + "..." : text;
   return (
     <Box textAlign="center">
-      <Card variant="outlined">
-        <CardContent>
+      <Card variant="outlined" elevation={2}>
+        <CardContent sx={{ bgcolor: "secondary.main" }}>
           <Typography
-            color="secondary"
             variant="h6"
+            color="white"
             sx={{ cursor: "pointer", textDecoration: "none" }}
             component={Link}
             href={UrlsList.promptInfo + `/${slug}`}
           >
             {heading}
           </Typography>
-          <Grid container justifyContent="center">
-            <Grid>
-              <Typography component="div" sx={{ fontSize: 12 }}>
-                Categories: {categories.map((cat) => `${cat.name},`)}
-              </Typography>
-            </Grid>
-            <Grid>
-              <Typography component="div" sx={{ fontSize: 12 }}>
-                language: {langSymbol}
-              </Typography>
-            </Grid>
-          </Grid>
         </CardContent>
+        <Grid container justifyContent="center">
+          <Grid>
+            <Typography component="div" sx={{ fontSize: 12 }}>
+              Categories:{" "}
+              {categories.map(
+                (cat, i) =>
+                  `${cat.name} ${i + 1 !== categories.length ? "," : ""}`
+              )}
+            </Typography>
+          </Grid>
+          {/* <Grid>
+            <Typography component="div" sx={{ fontSize: 12 }}>
+              language: {langSymbol}
+            </Typography>
+          </Grid> */}
+        </Grid>
         <CardActions sx={{ textAlign: "center" }}>
           <Button
             LinkComponent={Link}

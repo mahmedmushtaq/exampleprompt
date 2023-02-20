@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import {
   TextField,
   Box,
@@ -10,33 +10,82 @@ import { findUndefinedKeyInObj } from "../../../globals/helpers";
 import useDataFetchingUtils from "../../../hooks/useDataFetchingUtils";
 import SelectLanguage from "../../shared/SelectLanguage";
 import SelectCategory from "../../shared/SelectCategory";
-import { addPrompt } from "../../../libs/firebase/db/prompt";
+import {
+  addPrompt,
+  getPromptBySlug,
+  updatePrompt,
+} from "../../../libs/firebase/db/prompt";
 import { useAuth } from "../../../hooks/AuthContext";
 import { UrlsList } from "../../../globals/types";
 
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
-const AddPrompt = () => {
-  const [formState, setFormState] = useState({
-    text: "",
+const EditPrompt = () => {
+  const [formState, setFormState] = useState<{
+    heading: string;
+    categoryIds: string[];
+    langSymbol: string;
+    promptId: string;
+  }>({
     heading: "",
     categoryIds: [],
     langSymbol: "en",
+    promptId: "",
   });
+
+  const { userData } = useAuth();
+
+  const [quillEditorState, setQuillEditorState] = useState("");
+
+  const router = useRouter();
+
+  const { slug } = router.query;
 
   const ReactQuill = useMemo(
     () => dynamic(() => import("react-quill"), { ssr: false }),
     []
   );
 
-  const { userData } = useAuth();
   const { errAlert, setErr, isLoading, setIsLoading, trackApiCall } =
     useDataFetchingUtils();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
+
+  const loadPrompt = useCallback(async () => {
+    setIsLoading(true);
+    if (!slug) return setErr("slug is required");
+    try {
+      const promptInfo = await getPromptBySlug(slug as string);
+
+      const categoryIds = promptInfo.categories.map(
+        (cat) => cat.id
+      ) as string[];
+
+      setFormState({
+        heading: promptInfo.heading,
+        categoryIds: categoryIds as any,
+        langSymbol: "en",
+        promptId: promptInfo.id,
+      });
+
+      setQuillEditorState(promptInfo.text);
+    } catch (err) {
+      console.log(
+        " ====== err in loading prompt info in edit page ===== ",
+        err
+      );
+      setErr("Err in loading prompt info");
+    }
+    setIsLoading(false);
+  }, [slug]);
+
+  useEffect(() => {
+    loadPrompt();
+  }, [loadPrompt]);
 
   const handleSubmit = async () => {
     if (findUndefinedKeyInObj(formState)) {
@@ -47,8 +96,15 @@ const AddPrompt = () => {
     }
     trackApiCall();
     try {
-      await addPrompt({ ...formState, userId: userData!.id });
-      window.location.href = UrlsList.promptDashboard;
+      await updatePrompt(formState.promptId, {
+        heading: formState.heading,
+        categoryIds: formState.categoryIds,
+        langSymbol: formState.langSymbol,
+        text: quillEditorState,
+        userId: userData!.id,
+      });
+
+      router.push(UrlsList.promptInfo + "/" + slug);
     } catch (err) {
       setErr(String(err));
     }
@@ -58,6 +114,10 @@ const AddPrompt = () => {
 
   const onChangeSelect = (e: SelectChangeEvent<any>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
+  };
+
+  const onChangeQuillEditState = (val: string) => {
+    setQuillEditorState(val);
   };
 
   return (
@@ -79,10 +139,8 @@ const AddPrompt = () => {
       <Box mb={2}>
         <ReactQuill
           theme="snow"
-          value={formState.text}
-          onChange={(value: string) =>
-            setFormState({ ...formState, text: value })
-          }
+          value={quillEditorState}
+          onChange={onChangeQuillEditState}
         />
       </Box>
 
@@ -107,7 +165,7 @@ const AddPrompt = () => {
       <LoadingButton
         sx={{ mt: 3 }}
         loading={isLoading}
-        text="Submit Prompt"
+        text="Update Prompt"
         onClick={handleSubmit}
       />
       {errAlert}
@@ -115,4 +173,4 @@ const AddPrompt = () => {
   );
 };
 
-export default AddPrompt;
+export default EditPrompt;
