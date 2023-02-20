@@ -39,6 +39,7 @@ const Category = () => {
         columns={["id", "name"]}
         rows={allCategories}
         actionColumn
+        showIndex
         actionColumnConfig={{
           actionButtons: [{ type: "delete", onClick: deleteData }],
         }}

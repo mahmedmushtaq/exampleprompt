@@ -4,6 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { IPromptData, TGenericObj } from "../../globals/types";
 import _debounce from "lodash/debounce";
 import FilterFunctions from "./FilterFunctions";
+import { removeUndefinedKeyFromObj } from "../../globals/helpers";
 
 interface IProps {
   prompts: IPromptData[];
@@ -44,17 +45,19 @@ const useSearchFilter = ({ prompts }: IProps) => {
         { shallow: true }
       );
     },
-    [router]
+    [query]
   );
 
   const headingSearchFilter = (val: string) => {
     routerPush({ search: val });
   };
 
-  const debounceSearch = useCallback(_debounce(headingSearchFilter, 1000), []);
+  const debounceSearch = useCallback(_debounce(headingSearchFilter, 1000), [
+    query,
+  ]);
 
-  const onChangeCategorySelect = (e: SelectChangeEvent<any>) => {
-    routerPush({ category: e.target.value });
+  const onChangeCategorySelect = (val: string) => {
+    routerPush({ category: val });
   };
 
   const onChangeLanguageSelect = (e: SelectChangeEvent<any>) => {
@@ -66,7 +69,7 @@ const useSearchFilter = ({ prompts }: IProps) => {
     setSelectedCategory(undefined);
     setSelectedLang(undefined);
     setFilteredPrompts(prompts);
-    setSearch(undefined);
+    setSearch("");
   };
 
   useEffect(() => {
@@ -81,9 +84,10 @@ const useSearchFilter = ({ prompts }: IProps) => {
     const filterFunction = new FilterFunctions(prompts);
 
     let remainingPrompts: IPromptData[] = [];
-    let categoryValue = String(category);
-    let langValue = String(lang);
-    let searchValue = String(search);
+    let categoryValue = category ? String(category) : "";
+
+    let langValue = lang ? String(lang) : "";
+    let searchValue = search ? String(search) : "";
     // category and lang filter is applied
     if (category && lang && search) {
       remainingPrompts = filterFunction.applyCategoryLangAndSearchFilter({

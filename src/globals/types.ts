@@ -22,7 +22,9 @@ export enum UrlsList {
   addPrompt = "/dashboard/prompt/add",
   dashboardSettings = "/dashboard/settings",
   registration = "/registration",
-  promptInfo = '/prompt'
+  promptInfo = '/prompt',
+  editPrompt = "/dashboard/prompt/edit"
+
 }
 
 export interface IUserData {

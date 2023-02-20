@@ -21,6 +21,7 @@ interface IProps {
   };
   innerTableColumns?: string[];
   role?: RoleTypes;
+  showIndex?: boolean;
 }
 
 const TableWrapper = ({
@@ -29,6 +30,7 @@ const TableWrapper = ({
   actionColumn,
   innerTableColumns,
   actionColumnConfig,
+  showIndex,
   role,
 }: IProps) => {
   const { align = "center", actionButtons } = actionColumnConfig || {};
@@ -55,6 +57,7 @@ const TableWrapper = ({
           >
             <TableHead>
               <TableRow>
+                {showIndex && <TableCell>Index</TableCell>}
                 {columns.map((col) => (
                   <TableCell key={col} sx={{ fontWeight: "bold" }}>
                     {col}
@@ -68,12 +71,15 @@ const TableWrapper = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {rows.map((row, index) => (
                 <>
                   <TableRow
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
+                    {showIndex && (
+                      <TableCell align="left">{index + 1}</TableCell>
+                    )}
                     {columns.map((col) => (
                       <TableCell key={row[col]} align="left">
                         {!Array.isArray(row[col]) ? (

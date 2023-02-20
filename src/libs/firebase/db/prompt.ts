@@ -45,7 +45,7 @@ export const getAllPromptsByUserId = async (uid: string) => {
   const result = await getDocs(q);
   return getAllPrompts(result);
 };
-export const getAllPromptsBySlug = async (slug: string) => {
+export const getPromptBySlug = async (slug: string) => {
   const q = query(promptCollectionRef, where("slug", "==", slug));
   const result = await getDocs(q);
   const prompt = await getAllPrompts(result);
@@ -102,6 +102,10 @@ export const deletePrompt = async (id: string) => {
 
 export const approvePrompt = async (id: string) => {
   await updateData(CollectionTypes.prompts, id, { approved: true });
+};
+
+export const updatePrompt = async (id: string, data: IAddPrompt) => {
+  await updateData(CollectionTypes.prompts, id, { ...data });
 };
 
 export const getAllPromptsSlugsOnly = async () => {
