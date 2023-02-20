@@ -93,7 +93,7 @@ const Home = ({ prompts, categories }: IProps) => {
 
       <Grid container alignItems="center" spacing={4}>
         {filteredPrompts.map((prompt) => (
-          <Grid sm={3} key={prompt.id}>
+          <Grid xs={12} sm={4} md={3} key={prompt.id}>
             <PromptItem {...prompt} />
           </Grid>
         ))}
