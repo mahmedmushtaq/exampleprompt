@@ -19,8 +19,9 @@ import dynamic from "next/dynamic";
 
 const AddPrompt = () => {
   const [formState, setFormState] = useState({
-    text: "",
     heading: "",
+    prompt: "",
+    promptExample: "",
     categoryIds: [],
     langSymbol: "en",
   });
@@ -76,13 +77,32 @@ const AddPrompt = () => {
           50 - formState.heading.length
         }`}
       />
+
       <Box mb={2}>
-        <ReactQuill
-          theme="snow"
-          value={formState.text}
-          onChange={(value: string) =>
-            setFormState({ ...formState, text: value })
-          }
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Enter your prompt here"
+          variant="outlined"
+          name="prompt"
+          multiline
+          rows={2}
+          value={formState.prompt}
+          onChange={onChange}
+        />
+      </Box>
+
+      <Box mb={2}>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Enter your prompt example here"
+          variant="outlined"
+          name="promptExample"
+          multiline
+          rows={2}
+          value={formState.promptExample}
+          onChange={onChange}
         />
       </Box>
 

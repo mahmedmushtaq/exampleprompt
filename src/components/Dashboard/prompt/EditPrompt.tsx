@@ -28,16 +28,18 @@ const EditPrompt = () => {
     categoryIds: string[];
     langSymbol: string;
     promptId: string;
+    prompt: string;
+    promptExample: string;
   }>({
     heading: "",
     categoryIds: [],
     langSymbol: "en",
     promptId: "",
+    prompt: "",
+    promptExample: "",
   });
 
   const { userData } = useAuth();
-
-  const [quillEditorState, setQuillEditorState] = useState("");
 
   const router = useRouter();
 
@@ -66,13 +68,12 @@ const EditPrompt = () => {
       ) as string[];
 
       setFormState({
+        ...formState,
         heading: promptInfo.heading,
         categoryIds: categoryIds as any,
         langSymbol: "en",
         promptId: promptInfo.id,
       });
-
-      setQuillEditorState(promptInfo.text);
     } catch (err) {
       console.log(
         " ====== err in loading prompt info in edit page ===== ",
@@ -95,12 +96,24 @@ const EditPrompt = () => {
       return setErr("Only 50 words are allowed in heading");
     }
     trackApiCall();
+
+    console.log({
+      heading: formState.heading,
+      categoryIds: formState.categoryIds,
+      langSymbol: formState.langSymbol,
+      prompt: formState.prompt,
+      promptExample: formState.promptExample,
+      userId: userData!.id,
+      text: "",
+    });
+
     try {
       await updatePrompt(formState.promptId, {
         heading: formState.heading,
         categoryIds: formState.categoryIds,
         langSymbol: formState.langSymbol,
-        text: quillEditorState,
+        prompt: formState.prompt,
+        promptExample: formState.promptExample,
         userId: userData!.id,
       });
 
@@ -114,10 +127,6 @@ const EditPrompt = () => {
 
   const onChangeSelect = (e: SelectChangeEvent<any>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
-  };
-
-  const onChangeQuillEditState = (val: string) => {
-    setQuillEditorState(val);
   };
 
   return (
@@ -136,11 +145,32 @@ const EditPrompt = () => {
           50 - formState.heading.length
         }`}
       />
+
       <Box mb={2}>
-        <ReactQuill
-          theme="snow"
-          value={quillEditorState}
-          onChange={onChangeQuillEditState}
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Enter your prompt here"
+          variant="outlined"
+          name="prompt"
+          multiline
+          rows={2}
+          value={formState.prompt}
+          onChange={onChange}
+        />
+      </Box>
+
+      <Box mb={2}>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Enter your prompt example here"
+          variant="outlined"
+          name="promptExample"
+          multiline
+          rows={2}
+          value={formState.promptExample}
+          onChange={onChange}
         />
       </Box>
 

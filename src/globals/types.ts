@@ -22,9 +22,8 @@ export enum UrlsList {
   addPrompt = "/dashboard/prompt/add",
   dashboardSettings = "/dashboard/settings",
   registration = "/registration",
-  promptInfo = '/prompt',
-  editPrompt = "/dashboard/prompt/edit"
-
+  promptInfo = "/prompt",
+  editPrompt = "/dashboard/prompt/edit",
 }
 
 export interface IUserData {
@@ -49,8 +48,9 @@ export interface IPromptData {
   categories: ICategoryData[];
   heading: string;
   slug: string;
-  text: string;
   langSymbol: string;
   user: IUserData;
   approved: boolean;
+  prompt: string;
+  promptExample: string;
 }

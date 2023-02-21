@@ -39,7 +39,7 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
 
   const handleCopy = async () => {
     setIsCopied(true);
-    copy(prompt.text.replace(/<\/?[^>]+(>|$)/g, ""));
+    copy(prompt.prompt.replace(/<\/?[^>]+(>|$)/g, ""));
     setTimeout(() => {
       setIsCopied(false);
     }, 500);
@@ -78,18 +78,20 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
         >
           {prompt.heading}
         </Typography>
-        <Typography variant="h6" sx={{ my: 5 }}>
-          Detailed description
+        <Typography variant="h4" sx={{ mt: 5, mb: 2 }}>
+          Prompt
         </Typography>
 
         <CustomCard>
-          <ReactQuill
-            modules={{ toolbar: false }}
-            theme="snow"
-            value={promptInfo.text}
-            style={{ border: 0 }}
-            readOnly
-          />
+          <Typography variant="h6">{prompt.prompt}</Typography>
+        </CustomCard>
+
+        <Typography variant="h6" sx={{ mt: 5, mb: 2 }}>
+          PromptExample
+        </Typography>
+
+        <CustomCard>
+          <Typography>{prompt.promptExample}</Typography>
         </CustomCard>
 
         <Grid

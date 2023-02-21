@@ -20,15 +20,13 @@ const colors = [
 
 const PromptItem = ({
   heading,
-  text,
+  prompt,
   categories,
   langSymbol,
   slug,
 }: IProps) => {
-  //   const trimHeading =
-  //     heading.length > 35 ? heading.substring(0, 25) + "..." : heading;
   const trimDescription =
-    text.length > 500 ? text.substring(0, 500) + "..." : text;
+    prompt.length > 500 ? prompt.substring(0, 500) + "..." : prompt;
   return (
     <Box textAlign="center">
       <Card variant="outlined" elevation={2}>
