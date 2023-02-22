@@ -20,7 +20,7 @@ class FilterFunctions {
 
       return (
         prompt.langSymbol === lang &&
-        (prompt.heading.includes(search) || prompt.text.includes(search))
+        (prompt.heading.includes(search) || prompt.prompt.includes(search))
       );
     });
   }
@@ -55,7 +55,7 @@ class FilterFunctions {
       );
       if (!searchCategory) return false;
 
-      return prompt.heading.includes(search) || prompt.text.includes(search);
+      return prompt.heading.includes(search) || prompt.prompt.includes(search);
     });
   }
 
@@ -63,7 +63,7 @@ class FilterFunctions {
     return this._promptsData.filter(
       (prompt) =>
         prompt.langSymbol === lang &&
-        (prompt.heading.includes(search) || prompt.text.includes(search))
+        (prompt.heading.includes(search) || prompt.prompt.includes(search))
     );
   }
 
@@ -85,7 +85,7 @@ class FilterFunctions {
   applyOnlySearchFilter(search: string) {
     return this._promptsData.filter(
       (prompt) =>
-        prompt.heading.includes(search) || prompt.text.includes(search)
+        prompt.heading.includes(search) || prompt.prompt.includes(search)
     );
   }
 }
