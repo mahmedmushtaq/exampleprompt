@@ -16,22 +16,28 @@ import { getUserById } from "./user";
 const promptCollectionRef = collection(db, "prompts");
 
 interface IAddPrompt
-  extends Pick<IPromptData, "text" | "langSymbol" | "heading"> {
+  extends Pick<
+    IPromptData,
+    "langSymbol" | "prompt" | "promptExample" | "heading"
+  > {
+  text?: string;
   categoryIds: string[];
   userId: string;
 }
 
 export const addPrompt = async ({
-  text,
   langSymbol,
   categoryIds,
   userId,
   heading,
+  prompt,
+  promptExample,
 }: IAddPrompt) => {
   const data = {
-    text,
     langSymbol,
     heading,
+    prompt,
+    promptExample,
     slug: generateSlug(heading),
     categoryIds,
     userId,
