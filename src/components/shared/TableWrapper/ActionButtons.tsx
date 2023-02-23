@@ -1,7 +1,7 @@
 import { RoleTypes, TGenericObj } from "../../../globals/types";
 import LoadingButton from "../LoadingButton";
 
-export type actionBtnType = "more" | "approve" | "delete" | "link";
+export type actionBtnType = "more" | "approve" | "delete" | "link" | "edit";
 export interface IActionButton {
   type: actionBtnType;
   onClick?: (id: string, row: TGenericObj) => void;

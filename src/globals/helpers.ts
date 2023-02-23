@@ -1,8 +1,13 @@
 import { TGenericObj } from "./types";
 import slugify from "slugify";
 
-export const findUndefinedKeyInObj = (obj: TGenericObj) => {
-  return Object.keys(obj).find((key) => !obj[key]);
+export const findUndefinedKeyInObj = (
+  obj: TGenericObj,
+  excludeKeys: string[] = []
+) => {
+  return Object.keys(obj).find(
+    (key) => !obj[key] && !excludeKeys.includes(key)
+  );
 };
 
 export const generateSlug = (text: string) =>

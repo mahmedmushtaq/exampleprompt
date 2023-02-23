@@ -12,10 +12,10 @@ const useToProtectRoute = ({ role }: { role?: RoleTypes }) => {
       window.location.href = "/registration";
       return;
     }
-    if (role && userData?.role !== role) {
-      window.location.href = UrlsList.promptDashboard;
-      return;
-    }
+    // if (role && userData?.role !== role) {
+    //   window.location.href = UrlsList.promptDashboard;
+    //   return;
+    // }
     if (userData && !loading) {
       setShowPage(true);
     }

@@ -24,6 +24,7 @@ export enum UrlsList {
   registration = "/registration",
   promptInfo = "/prompt",
   editPrompt = "/dashboard/prompt/edit",
+  editCategory = "/dashboard/category/edit",
 }
 
 export interface IUserData {
@@ -36,6 +37,7 @@ export interface ICategoryData {
   id: string;
   name: string;
   description: string;
+  parentCategory?: ICategoryData;
 }
 
 export interface ILanguageData {

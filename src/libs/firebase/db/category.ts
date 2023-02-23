@@ -7,20 +7,45 @@ import {
   getAllData,
   getDataById,
   getDataByKeyField,
+  updateData,
 } from ".";
 
 const categoriesCollectionRef = collection(db, "categories");
 
-export const addCategory = async (data: Omit<ICategoryData, "id">) => {
+interface IAddCategory extends Omit<ICategoryData, "id"> {
+  parentCategoryId?: string;
+}
+
+export const addCategory = async (data: IAddCategory) => {
   await appendNewRecord(categoriesCollectionRef, data);
 };
 
-export const getAllCategories = async () => {
-  const allCategories = (await getAllData(
-    categoriesCollectionRef
-  )) as ICategoryData[];
+export const editCategory = async (id: string, data: IAddCategory) => {
+  await updateData(CollectionTypes.categories, id, { ...data });
+};
 
-  return allCategories;
+export const getAllCategories = async () => {
+  const allCategories = await getAllData(categoriesCollectionRef);
+
+  const allRecordsWithParentCategoryIdsMap = allCategories.map(
+    async (category: any) => {
+      if (!category.parentCategoryId) {
+        return {
+          ...category,
+        };
+      }
+
+      const parentCategoryRecord = await fetchParentCategoryInfo(category);
+
+      return {
+        ...category,
+        parentCategory: parentCategoryRecord,
+      };
+    }
+  );
+
+  const allRecords = await Promise.all(allRecordsWithParentCategoryIdsMap);
+  return allRecords as ICategoryData[];
 };
 
 export const deleteCategory = async (id: string) => {
@@ -29,7 +54,10 @@ export const deleteCategory = async (id: string) => {
 
 export const getCategoryById = async (id: string) => {
   const result = await getDataById(CollectionTypes.categories, id);
-  return result;
+  const finalCategoryWithParentCategory = result
+    ? await fetchParentCategoryInfo(result as ICategoryData)
+    : result;
+  return finalCategoryWithParentCategory;
 };
 
 export const getCategoryByName = async (val: string) => {
@@ -38,5 +66,24 @@ export const getCategoryByName = async (val: string) => {
     "name",
     val
   );
-  return result;
+  const finalCategoryWithParentCategory = result
+    ? await fetchParentCategoryInfo(result as ICategoryData)
+    : result;
+  return finalCategoryWithParentCategory;
+};
+
+// ===== UTILS function
+
+const fetchParentCategoryInfo = async (category: IAddCategory) => {
+  if (!category.parentCategoryId) return { ...category };
+
+  const parentCategoryInfo = await getDataById(
+    CollectionTypes.categories,
+    category.parentCategoryId
+  );
+
+  return {
+    ...category,
+    parentCategory: parentCategoryInfo,
+  };
 };

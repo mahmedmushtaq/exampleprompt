@@ -10,7 +10,13 @@ import {
   getAllPromptsSlugsOnly,
 } from "../../src/libs/firebase/db/prompt";
 import { IPromptData, UrlsList } from "../../src/globals/types";
-import { Box, Typography, Unstable_Grid2 as Grid, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Unstable_Grid2 as Grid,
+  Button,
+  TextField,
+} from "@mui/material";
 import copy from "copy-to-clipboard";
 import CustomCard from "../../src/components/shared/CustomCard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -31,11 +37,6 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
   const { userData, isAdmin } = useAuth();
 
   const isOwner = userData?.id === prompt.user.id;
-
-  const ReactQuill = useMemo(
-    () => dynamic(() => import("react-quill"), { ssr: false }),
-    []
-  );
 
   const handleCopy = async () => {
     setIsCopied(true);
@@ -82,17 +83,38 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
           Prompt
         </Typography>
 
-        <CustomCard>
-          <Typography variant="h6">{prompt.prompt}</Typography>
-        </CustomCard>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          variant="outlined"
+          name="prompt"
+          multiline
+          minRows={2}
+          defaultValue={prompt.prompt}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
 
-        <Typography variant="h6" sx={{ mt: 5, mb: 2 }}>
+        <Typography
+          variant="h6"
+          sx={{ mt: 5, mb: 2, whiteSpace: "pre-wrap", wordWrap: "break-word" }}
+        >
           PromptExample
         </Typography>
 
-        <CustomCard>
-          <Typography>{prompt.promptExample}</Typography>
-        </CustomCard>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          variant="outlined"
+          name="promptExample"
+          multiline
+          minRows={2}
+          defaultValue={prompt.promptExample}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
 
         <Grid
           container
