@@ -67,12 +67,16 @@ const EditPrompt = () => {
         (cat) => cat.id
       ) as string[];
 
+      console.log("promptInfo ", promptInfo);
+
       setFormState({
         ...formState,
         heading: promptInfo.heading,
         categoryIds: categoryIds as any,
         langSymbol: "en",
         promptId: promptInfo.id,
+        prompt: promptInfo.prompt,
+        promptExample: promptInfo.promptExample,
       });
     } catch (err) {
       console.log(
@@ -154,7 +158,7 @@ const EditPrompt = () => {
           variant="outlined"
           name="prompt"
           multiline
-          rows={2}
+          minRows={2}
           value={formState.prompt}
           onChange={onChange}
         />
@@ -168,7 +172,7 @@ const EditPrompt = () => {
           variant="outlined"
           name="promptExample"
           multiline
-          rows={2}
+          minRows={2}
           value={formState.promptExample}
           onChange={onChange}
         />

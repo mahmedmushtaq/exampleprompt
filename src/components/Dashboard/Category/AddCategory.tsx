@@ -5,6 +5,8 @@ import {
   TextareaAutosize,
   Box,
   Unstable_Grid2 as Grid,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import LoadingButton from "../../shared/LoadingButton";
 import { findUndefinedKeyInObj } from "../../../globals/helpers";
@@ -17,6 +19,9 @@ const AddCategory = () => {
     name: "",
     description: "",
   });
+
+  // TODO:- reactive this in future
+  // const [isParentCategory, setIsParentCategory] = useState(true);
   const { errAlert, setErr, isLoading, setIsLoading, trackApiCall } =
     useDataFetchingUtils();
 
@@ -71,6 +76,24 @@ const AddCategory = () => {
         id="outlined-basic"
         placeholder="Detailed description"
       />
+
+      {/* 
+ // TODO:- reactive this in future
+      <Box>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isParentCategory}
+              onChange={(e) => setIsParentCategory(e.target.checked)}
+            />
+          }
+          label={
+            isParentCategory
+              ? "It is parent category"
+              : "No it's not a parent category"
+          }
+        />
+      </Box> */}
 
       <LoadingButton
         sx={{ mt: 3 }}

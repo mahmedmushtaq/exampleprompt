@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  deleteCategory,
-  getAllCategories,
-} from "../../../libs/firebase/db/category";
+import { deleteCategory } from "../../../libs/firebase/db/category";
 import TableWrapper from "../../shared/TableWrapper";
-import { ICategoryData } from "../../../globals/types";
 import useToLoadCategories from "../../../hooks/useToLoadCategories";
+import { useRouter } from "next/router";
+import { UrlsList } from "../../../globals/types";
 
 const Category = () => {
   const {
@@ -17,6 +14,8 @@ const Category = () => {
     setIsLoading,
     setErr,
   } = useToLoadCategories();
+
+  const router = useRouter();
 
   const deleteData = async (id: string) => {
     trackApiCall();
@@ -32,6 +31,10 @@ const Category = () => {
     setIsLoading(false);
   };
 
+  const onClickEditBtn = (id: string) => {
+    router.push(UrlsList.editCategory + "/" + id);
+  };
+
   return (
     <div>
       {loadingAlert}
@@ -41,7 +44,10 @@ const Category = () => {
         actionColumn
         showIndex
         actionColumnConfig={{
-          actionButtons: [{ type: "delete", onClick: deleteData }],
+          actionButtons: [
+            { type: "delete", onClick: deleteData },
+            { type: "edit", onClick: onClickEditBtn },
+          ],
         }}
       />
       {errAlert}

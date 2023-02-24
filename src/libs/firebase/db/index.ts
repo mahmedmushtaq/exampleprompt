@@ -24,6 +24,15 @@ export const appendNewRecord = async (
   await addDoc(ref, data);
 };
 
+export const appendNewRecordWithAutoIncrementId = async (
+  ref: CollectionReference<DocumentData>,
+  data: unknown
+) => {
+  const prevData = await getAllData(ref);
+  const id = (prevData?.length || 0) + 1;
+  await addDoc(ref, { ...(data || {}), incrementalId: id });
+};
+
 export const getAllData = async (ref: CollectionReference<DocumentData>) => {
   const result = await getDocs(ref);
   const data = result.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import FrontLayout from "../../src/layouts/FrontLayout";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -10,7 +10,13 @@ import {
   getAllPromptsSlugsOnly,
 } from "../../src/libs/firebase/db/prompt";
 import { IPromptData, UrlsList } from "../../src/globals/types";
-import { Box, Typography, Unstable_Grid2 as Grid, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Unstable_Grid2 as Grid,
+  Button,
+  TextField,
+} from "@mui/material";
 import copy from "copy-to-clipboard";
 import CustomCard from "../../src/components/shared/CustomCard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -19,6 +25,8 @@ import { useAuth } from "../../src/hooks/AuthContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
+import { MESSAGE_KEYS } from "../../src/globals/constants";
+import Link from "next/link";
 
 interface IProps {
   prompt: IPromptData;
@@ -31,11 +39,6 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
   const { userData, isAdmin } = useAuth();
 
   const isOwner = userData?.id === prompt.user.id;
-
-  const ReactQuill = useMemo(
-    () => dynamic(() => import("react-quill"), { ssr: false }),
-    []
-  );
 
   const handleCopy = async () => {
     setIsCopied(true);
@@ -57,6 +60,32 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
 
   const editPrompt = () => {
     router.push(UrlsList.editPrompt + "/" + promptInfo.slug);
+  };
+
+  useEffect(() => {
+    window.addEventListener(
+      "message",
+      function (event) {
+        // We only accept messages from this window to itself [i.e. not from any iframes]
+        if (event.source != window) return;
+
+        if (
+          event?.data?.type ===
+          MESSAGE_KEYS.RECEIVED_MSG_EXAMPLE_PROMPT_EXTENSION
+        ) {
+          this.window.open("https://chat.openai.com", "_blank");
+        }
+      },
+      false
+    );
+  }, []);
+
+  const usedPrompt = () => {
+    const data = {
+      type: MESSAGE_KEYS.SEND_MSG_EXAMPLE_PROMPT_EXTENSION,
+      text: promptInfo.prompt,
+    };
+    window.postMessage(data, "*");
   };
 
   if (router.isFallback) {
@@ -82,17 +111,38 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
           Prompt
         </Typography>
 
-        <CustomCard>
-          <Typography variant="h6">{prompt.prompt}</Typography>
-        </CustomCard>
+        <TextField
+          fullWidth
+          id="prompt"
+          variant="outlined"
+          name="prompt"
+          multiline
+          minRows={2}
+          defaultValue={prompt.prompt}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
 
-        <Typography variant="h6" sx={{ mt: 5, mb: 2 }}>
+        <Typography
+          variant="h6"
+          sx={{ mt: 5, mb: 2, whiteSpace: "pre-wrap", wordWrap: "break-word" }}
+        >
           PromptExample
         </Typography>
 
-        <CustomCard>
-          <Typography>{prompt.promptExample}</Typography>
-        </CustomCard>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          variant="outlined"
+          name="promptExample"
+          multiline
+          minRows={2}
+          defaultValue={prompt.promptExample}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
 
         <Grid
           container
@@ -147,7 +197,31 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
               </Button>
             </Grid>
           )}
+
+          <Grid>
+            <Button
+              id="prompt-usedit"
+              color="info"
+              variant="contained"
+              startIcon={<DeleteIcon />}
+              onClick={usedPrompt}
+            >
+              Use the prompt
+            </Button>
+          </Grid>
         </Grid>
+        <Box mt={3} mb={10} id="chrome-extension-installed">
+          <Typography color="primary">
+            Please install the chrome extension to directly use the prompt.
+            After installing the extension please refresh the page.
+            <Link
+              style={{ textDecoration: "none", marginLeft: 10 }}
+              href="https://chrome.google.com/webstore/detail/chatgpt-prompts-by-exampl/cbojogfgmmilecmiickfniajoffjgcnd/related"
+            >
+              Extension link
+            </Link>
+          </Typography>
+        </Box>
       </Box>
     </FrontLayout>
   );
