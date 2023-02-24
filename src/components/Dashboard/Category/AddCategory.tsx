@@ -20,7 +20,8 @@ const AddCategory = () => {
     description: "",
   });
 
-  const [isParentCategory, setIsParentCategory] = useState(true);
+  // TODO:- reactive this in future
+  // const [isParentCategory, setIsParentCategory] = useState(true);
   const { errAlert, setErr, isLoading, setIsLoading, trackApiCall } =
     useDataFetchingUtils();
 
@@ -76,6 +77,8 @@ const AddCategory = () => {
         placeholder="Detailed description"
       />
 
+      {/* 
+ // TODO:- reactive this in future
       <Box>
         <FormControlLabel
           control={
@@ -90,7 +93,7 @@ const AddCategory = () => {
               : "No it's not a parent category"
           }
         />
-      </Box>
+      </Box> */}
 
       <LoadingButton
         sx={{ mt: 3 }}

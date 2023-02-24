@@ -51,6 +51,17 @@ export const getAllPromptsByUserId = async (uid: string) => {
   const result = await getDocs(q);
   return getAllPrompts(result);
 };
+
+export const getAllPromptsByCategoryId = async (id: string) => {
+  const q = query(
+    promptCollectionRef,
+    where("categoryIds", "array-contains", id),
+    where("approved", "==", true)
+  );
+  const result = await getDocs(q);
+  return getAllPrompts(result);
+};
+
 export const getPromptBySlug = async (slug: string) => {
   const q = query(promptCollectionRef, where("slug", "==", slug));
   const result = await getDocs(q);

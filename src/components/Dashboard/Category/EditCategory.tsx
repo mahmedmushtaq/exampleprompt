@@ -25,10 +25,9 @@ const EditCategory = () => {
   const [categoryInfo, setCategoryInfo] = useState({
     name: "",
     description: "",
-    parentCategoryId: "",
+    incrementalId: 0,
   });
 
-  const [selectParentCategory, setSelectedSubCategoryId] = useState(false);
   const { errAlert, setErr, isLoading, setIsLoading, trackApiCall } =
     useDataFetchingUtils();
 
@@ -44,7 +43,12 @@ const EditCategory = () => {
     setIsLoading(true);
     try {
       const res = await getCategoryById(id as string);
-      setCategoryInfo({ ...categoryInfo, ...res });
+      setCategoryInfo({
+        ...categoryInfo,
+        name: res.name,
+        description: res.description,
+        incrementalId: +res.incrementalId,
+      });
     } catch (err) {
       console.log("error in loading category info");
     }
@@ -61,10 +65,6 @@ const EditCategory = () => {
       return setErr("All fields are required ");
     }
 
-    if (!categoryInfo.parentCategoryId) {
-      //@ts-ignore
-      delete categoryInfo.parentCategoryId;
-    }
     trackApiCall();
     try {
       await editCategory(id as string, { ...categoryInfo });
@@ -74,13 +74,6 @@ const EditCategory = () => {
     }
 
     setIsLoading(false);
-  };
-
-  const onChangeParentCategorySelect = (e: SelectChangeEvent<unknown>) => {
-    setCategoryInfo({
-      ...categoryInfo,
-      parentCategoryId: e.target.value as string,
-    });
   };
 
   return (
@@ -99,6 +92,17 @@ const EditCategory = () => {
         </Grid>
       </Grid>
 
+      <TextField
+        fullWidth
+        id="outlined-basic"
+        label="AutoIncrement Id"
+        variant="outlined"
+        name="incrementalId"
+        value={categoryInfo.incrementalId}
+        onChange={onChange}
+        sx={{ mt: 5 }}
+      />
+
       <TextareaAutosize
         style={{
           width: "100%",
@@ -116,35 +120,10 @@ const EditCategory = () => {
         placeholder="Detailed description"
       />
 
-      <Box>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={selectParentCategory}
-              onChange={(e) => setSelectedSubCategoryId(e.target.checked)}
-            />
-          }
-          label={
-            selectParentCategory
-              ? "It is parent category"
-              : "Select the parent category in below section"
-          }
-        />
-      </Box>
-
-      {selectParentCategory && (
-        <Box mt={5}>
-          <SelectCategory
-            value={categoryInfo.parentCategoryId}
-            onChange={onChangeParentCategorySelect}
-          />
-        </Box>
-      )}
-
       <LoadingButton
         sx={{ mt: 3 }}
         loading={isLoading}
-        text="Add Category"
+        text="Update Category"
         onClick={handleSubmit}
       />
       {errAlert}

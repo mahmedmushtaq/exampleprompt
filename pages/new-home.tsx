@@ -2,8 +2,16 @@ import FrontLayout from "../src/layouts/FrontLayout";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import type { GetStaticProps } from "next";
 import { getAllPromptsByApprovedStatus } from "../src/libs/firebase/db/prompt";
-import { ICategoryData, IPromptData } from "../src/globals/types";
-import { getAllCategories } from "../src/libs/firebase/db/category";
+import {
+  ICategoryData,
+  ICategoryWithPrompts,
+  IPromptData,
+  UrlsList,
+} from "../src/globals/types";
+import {
+  getAllCategories,
+  getAllCategoriesWithPrompts,
+} from "../src/libs/firebase/db/category";
 import {
   Box,
   Divider,
@@ -16,11 +24,10 @@ import HeadingText from "../src/components/shared/HeadingText";
 import ListItemWithIcon from "../src/components/shared/LisItemWithIcon";
 import RewriterSvg from "../src/components/shared/Svgs/RewriterSvg";
 import AutoModeIcon from "@mui/icons-material/AutoMode";
-import SummarizeIcon from "@mui/icons-material/Summarize";
+import Link from "next/link";
 
 interface IProps {
-  prompts: IPromptData[];
-  categories: ICategoryData[];
+  categoriesWithPrompts: ICategoryWithPrompts[];
 }
 
 const topCategories = [
@@ -33,7 +40,8 @@ const topCategories = [
   { id: 7, heading: "For Businesses" },
 ];
 
-export default function NewHome(props: IProps) {
+export default function NewHome({ categoriesWithPrompts }: IProps) {
+  console.log("categorieswithprpompts ", categoriesWithPrompts);
   return (
     <FrontLayout
       pageDescription="Get Help From Other People Command"
@@ -68,45 +76,59 @@ export default function NewHome(props: IProps) {
             </Grid>
           </Box>
 
-          {topCategories.map((category) => (
-            <Box key={category.id}>
-              <Grid container alignItems="center" mt={10}>
-                <Grid>
-                  <Typography variant="h4">{category.heading}</Typography>
-                  <Divider
-                    sx={{
-                      bgcolor: "primary.main",
-                      height: 2,
-                      width: 400,
+          {categoriesWithPrompts.map(
+            ({ category, prompts }) =>
+              !!prompts.length && (
+                <Box key={category.id}>
+                  <Grid container alignItems="center" mt={10}>
+                    <Grid>
+                      <Typography variant="h4">{category.name}</Typography>
+                      <Divider
+                        sx={{
+                          bgcolor: "primary.main",
+                          height: 2,
+                          width: 400,
 
-                      mt: 2,
-                    }}
-                  />
-                </Grid>
-              </Grid>
-
-              <Box mt={7}>
-                <Box my={4}>
-                  <Grid container sx={{ px: 5 }} justifyContent="center">
-                    <Grid xs={12} sm={4} textAlign="center">
-                      <ListItemWithIcon
-                        icon={
-                          <AutoModeIcon fontSize="large" color="secondary" />
-                        }
-                        text="Rewrite Text Prompt"
-                      />
-                    </Grid>
-                    <Grid xs={12} sm={4} textAlign="end">
-                      <ListItemWithIcon
-                        icon={<SummarizeIcon fontSize="large" color="error" />}
-                        text="Research Paper Summary Prompt"
+                          mt: 2,
+                        }}
                       />
                     </Grid>
                   </Grid>
+
+                  <Box mt={7}>
+                    <Box my={4}>
+                      <Grid
+                        container
+                        sx={{ px: 5 }}
+                        justifyContent="center"
+                        spacing={5}
+                      >
+                        {prompts.map((prompt) => (
+                          <Grid
+                            key={prompt.id}
+                            xs={12}
+                            sm={5}
+                            textAlign="center"
+                          >
+                            <ListItemWithIcon
+                              url={UrlsList.promptInfo + `/${prompt.slug}`}
+                              containerSx={{ cursor: "pointer" }}
+                              icon={
+                                <AutoModeIcon
+                                  fontSize="large"
+                                  color="secondary"
+                                />
+                              }
+                              text={prompt.heading}
+                            />
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Box>
+                  </Box>
                 </Box>
-              </Box>
-            </Box>
-          ))}
+              )
+          )}
         </Box>
       </Box>
     </FrontLayout>
@@ -115,13 +137,11 @@ export default function NewHome(props: IProps) {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   // This is where the error occurs
-  const prompts = await getAllPromptsByApprovedStatus(true);
-  const categories = await getAllCategories();
+  const allCategoriesWithPrompts = await getAllCategoriesWithPrompts();
 
   return {
     props: {
-      prompts,
-      categories,
+      categoriesWithPrompts: allCategoriesWithPrompts,
     },
     revalidate: 1,
   };

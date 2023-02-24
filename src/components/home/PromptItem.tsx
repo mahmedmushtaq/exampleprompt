@@ -29,7 +29,7 @@ const PromptItem = ({
     prompt.length > 500 ? prompt.substring(0, 500) + "..." : prompt;
   return (
     <Box textAlign="center">
-      <Card variant="outlined" elevation={2}>
+      <Card elevation={2}>
         <CardContent
           sx={{ bgcolor: colors[Math.floor(Math.random() * colors.length)] }}
         >

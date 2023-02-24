@@ -27,3 +27,17 @@ export const removeUndefinedKeyFromObj = (obj: TGenericObj) => {
   });
   return newObj;
 };
+
+export const sortArrayObj = (
+  obj: TGenericObj[],
+  sortingKey: string,
+  order: "asc" | "desc"
+) => {
+  return obj.sort((a: TGenericObj, b: TGenericObj) => {
+    if (order === "asc") {
+      console.log("a[sortingKey] ", a[sortingKey]);
+      return parseInt(a[sortingKey]) - parseInt(b[sortingKey]);
+    }
+    return b[sortingKey] - a[sortingKey];
+  });
+};

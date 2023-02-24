@@ -37,7 +37,14 @@ export interface ICategoryData {
   id: string;
   name: string;
   description: string;
-  parentCategory?: ICategoryData;
+  incrementalId: string;
+  // TODO:- reactive parentCategory if requiuired
+  //parentCategory?: ICategoryData;
+}
+
+export interface ICategoryWithPrompts {
+  category: ICategoryData;
+  prompts: IPromptData[];
 }
 
 export interface ILanguageData {

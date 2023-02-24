@@ -1,12 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  deleteCategory,
-  getAllCategories,
-} from "../../../libs/firebase/db/category";
+import { deleteCategory } from "../../../libs/firebase/db/category";
 import TableWrapper from "../../shared/TableWrapper";
-import { ICategoryData, UrlsList } from "../../../globals/types";
 import useToLoadCategories from "../../../hooks/useToLoadCategories";
 import { useRouter } from "next/router";
+import { UrlsList } from "../../../globals/types";
 
 const Category = () => {
   const {
@@ -35,10 +31,9 @@ const Category = () => {
     setIsLoading(false);
   };
 
-  // [TODO:- ] reactive this in future
-  // const onClickEditBtn = (id: string) => {
-  //   router.push(UrlsList.editCategory + "/" + id);
-  // };
+  const onClickEditBtn = (id: string) => {
+    router.push(UrlsList.editCategory + "/" + id);
+  };
 
   return (
     <div>
