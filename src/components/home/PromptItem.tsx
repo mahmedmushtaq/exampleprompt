@@ -46,7 +46,7 @@ const PromptItem = ({
         <Grid container justifyContent="center">
           <Grid>
             <Typography component="div" sx={{ fontSize: 12 }}>
-              Categories:{" "}
+              Categories:
               {categories.map(
                 (cat, i) =>
                   `${cat.name} ${i + 1 !== categories.length ? "," : ""}`

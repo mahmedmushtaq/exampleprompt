@@ -27,6 +27,8 @@ import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { MESSAGE_KEYS } from "../../src/globals/constants";
 import Link from "next/link";
+import { gaEvent } from "../../src/libs/ga";
+import { GA_EVENTS_ACTIONS } from "../../src/globals/constants/gaEvents";
 
 interface IProps {
   prompt: IPromptData;
@@ -41,6 +43,11 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
   const isOwner = userData?.id === prompt.user.id;
 
   const handleCopy = async () => {
+    gaEvent({
+      action: GA_EVENTS_ACTIONS.PROMPT_COPIED,
+      params: { slug: promptInfo.slug, id: promptInfo.id },
+    });
+
     setIsCopied(true);
     copy(prompt.prompt.replace(/<\/?[^>]+(>|$)/g, ""));
     setTimeout(() => {
@@ -81,6 +88,11 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
   }, []);
 
   const usedPrompt = () => {
+    gaEvent({
+      action: GA_EVENTS_ACTIONS.PROMPT_USED,
+      params: { slug: promptInfo.slug, id: promptInfo.id },
+    });
+
     const data = {
       type: MESSAGE_KEYS.SEND_MSG_EXAMPLE_PROMPT_EXTENSION,
       text: promptInfo.prompt,
