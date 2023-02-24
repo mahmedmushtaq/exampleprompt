@@ -218,7 +218,7 @@ const PromptSlugPage = ({ prompt: promptInfo }: IProps) => {
               startIcon={<DeleteIcon />}
               onClick={usedPrompt}
             >
-              Use the prompt
+              Use Prompt
             </Button>
           </Grid>
         </Grid>
